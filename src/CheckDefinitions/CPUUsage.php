@@ -7,13 +7,13 @@ use Symfony\Component\Process\Process;
 
 class CPUUsage extends CheckDefinition
 {
+  const NAME = 'cpu';
+
   public $command = "grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage}'";
 
   public function resolve(Process $process)
   {
     $percentage = $this->getCPUUsagePercentage($process->getOutput());
-
-    $message = "usage at {$percentage}%";
 
     $thresholds = config('server-monitor.cpu_usage_threshold', [
       'warning' => 80,
@@ -21,18 +21,18 @@ class CPUUsage extends CheckDefinition
     ]);
 
     if ($percentage >= $thresholds['fail']) {
-      $this->check->fail($message);
+      $this->check->fail($percentage);
 
       return;
     }
 
     if ($percentage >= $thresholds['warning']) {
-      $this->check->warn($message);
+      $this->check->warn($percentage);
 
       return;
     }
 
-    $this->check->succeed($message);
+    $this->check->succeed($percentage);
   }
 
 

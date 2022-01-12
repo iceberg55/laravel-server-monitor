@@ -9,6 +9,7 @@ use Spatie\ServerMonitor\Models\Concerns\HasCustomProperties;
 use Spatie\ServerMonitor\Models\Enums\CheckStatus;
 use Spatie\ServerMonitor\Models\Enums\HostHealth;
 use Spatie\ServerMonitor\Models\Presenters\HostPresenter;
+use Spatie\ServerMonitor\Models\Record;
 
 class Host extends Model
 {
@@ -26,6 +27,11 @@ class Host extends Model
     public function checks(): HasMany
     {
         return $this->hasMany(config('server-monitor.check_model', Check::class));
+    }
+
+    public function record(): HasMany
+    {
+        return $this->hasMany(config('server-monitor.record_model', Record::class));
     }
 
     public function getEnabledChecksAttribute(): Collection

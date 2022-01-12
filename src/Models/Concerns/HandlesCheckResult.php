@@ -7,15 +7,29 @@ use Spatie\ServerMonitor\Events\CheckSucceeded;
 use Spatie\ServerMonitor\Events\CheckWarning;
 use Spatie\ServerMonitor\Helpers\ConsoleOutput;
 use Spatie\ServerMonitor\Models\Enums\CheckStatus;
+use Spatie\ServerMonitor\Models\Record;
 
 trait HandlesCheckResult
 {
+    private function saveRecord($value) {
+        $record = new Record;
+        $record->host_id = $this->host->id;
+        $record->value = $value;
+        $record->type = $this->type;
+        $record->status = $this->status;
+        $record->created_at = now();
+
+        $record->save();
+    }
+
     public function succeed(string $message = '')
     {
         $this->status = CheckStatus::SUCCESS;
-        $this->last_run_message = $message;
+        $this->last_run_value = $message;
 
         $this->save();
+
+        $this->saveRecord($message);
 
         event(new CheckSucceeded($this));
         ConsoleOutput::info($this->host->name.": check `{$this->type}` succeeded");
@@ -23,12 +37,14 @@ trait HandlesCheckResult
         return $this;
     }
 
-    public function warn(string $warningMessage = '')
+    public function warn(string $value = '')
     {
         $this->status = CheckStatus::WARNING;
-        $this->last_run_message = $warningMessage;
+        $this->last_run_value = $value;
 
         $this->save();
+
+        $this->saveRecord($value);
 
         event(new CheckWarning($this));
 
@@ -37,12 +53,13 @@ trait HandlesCheckResult
         return $this;
     }
 
-    public function fail(string $failureReason = '')
+    public function fail(string $value = '')
     {
         $this->status = CheckStatus::FAILED;
-        $this->last_run_message = $failureReason;
+        $this->last_run_value = $value;
 
         $this->save();
+        $this->saveRecord($value);
 
         event(new CheckFailed($this));
 

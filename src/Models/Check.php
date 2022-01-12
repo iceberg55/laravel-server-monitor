@@ -73,9 +73,16 @@ class Check extends Model
             ->isFuture();
     }
 
+    private function findCheckDefinition() : string {
+
+        return collect(config("server-monitor.checks"))->first(function($check) {
+            return $this->type == $check::NAME;
+        });
+    }
+
     public function getDefinition(): CheckDefinition
     {
-        if (! $definitionClass = config("server-monitor.checks.{$this->type}")) {
+        if (! $definitionClass = $this->findCheckDefinition()) {
             throw InvalidCheckDefinition::unknownCheckType($this);
         }
 

@@ -8,12 +8,11 @@ use Symfony\Component\Process\Process;
 class MemoryUsage extends CheckDefinition
 {
   public $command = "cat /proc/meminfo";
+  const NAME = 'memory';
 
   public function resolve(Process $process)
   {
     $percentage = $this->getMemoryUsage($process->getOutput());
-
-    $message = "usage at {$percentage}%";
 
     $thresholds = config('server-monitor.memory_usage_threshold', [
       'warning' => 80,
@@ -21,17 +20,17 @@ class MemoryUsage extends CheckDefinition
     ]);
 
     if ($percentage >= $thresholds['fail']) {
-      $this->check->fail($message);
+      $this->check->fail($percentage);
 
       return;
     }
 
     if ($percentage >= $thresholds['warning']) {
-      $this->check->warn($message);
+      $this->check->warn($percentage);
       return;
     }
 
-    $this->check->succeed($message);
+    $this->check->succeed($percentage);
   }
 
   protected function getMemoryUsage(string $commandOutput): float

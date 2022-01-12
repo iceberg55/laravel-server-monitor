@@ -8,12 +8,13 @@ return [
      * `Spatie\ServerMonitor\Checks\CheckDefinitions\CheckDefinition` class.
      */
     'checks' => [
-        'diskspace' => Spatie\ServerMonitor\CheckDefinitions\Diskspace::class,
-        'elasticsearch' => Spatie\ServerMonitor\CheckDefinitions\Elasticsearch::class,
-        'memcached' => Spatie\ServerMonitor\CheckDefinitions\Memcached::class,
-        'mysql' => Spatie\ServerMonitor\CheckDefinitions\MySql::class,
+        Spatie\ServerMonitor\CheckDefinitions\Diskspace::class,
+        Spatie\ServerMonitor\CheckDefinitions\CPUUsage::class,
+        Spatie\ServerMonitor\CheckDefinitions\MemoryUsage::class
     ],
 
+    // When the clean-up command is run, delete old records greater than `purge` days
+    'purge' => 30,
     /*
      * The default value for how often the checks will run,
      * after the last successful one.
@@ -41,9 +42,9 @@ return [
 
         'notifications' => [
             Spatie\ServerMonitor\Notifications\Notifications\CheckSucceeded::class => [],
-            Spatie\ServerMonitor\Notifications\Notifications\CheckRestored::class => ['slack'],
-            Spatie\ServerMonitor\Notifications\Notifications\CheckWarning::class => ['slack'],
-            Spatie\ServerMonitor\Notifications\Notifications\CheckFailed::class => ['slack'],
+            Spatie\ServerMonitor\Notifications\Notifications\CheckRestored::class => [],
+            Spatie\ServerMonitor\Notifications\Notifications\CheckWarning::class => [],
+            Spatie\ServerMonitor\Notifications\Notifications\CheckFailed::class => [],
         ],
 
         /*
@@ -87,6 +88,8 @@ return [
      */
     'check_model' => Spatie\ServerMonitor\Models\Check::class,
 
+    'record_model' => Spatie\ServerMonitor\Models\Record::class,
+
     /*
      * Right before running a check it's process will be given to this class. Here you
      * can perform some last minute manipulations on it before it will
@@ -94,13 +97,23 @@ return [
      *
      * This class should implement Spatie\ServerMonitor\Manipulators\Manipulator
      */
-    'process_manipulator' => Spatie\ServerMonitor\Manipulators\Passthrough::class,
+    'process_manipulator' => Spatie\ServerMonitor\Manipulators\ManipulatorLocal::class,
 
     /*
      * Thresholds for disk space's alert.
      */
     'diskspace_percentage_threshold' => [
         'warning' => 80,
+        'fail' => 90,
+    ],
+
+    'cpu_usage_threshold' => [
+        'warning' => 70,
+        'fail' => 90,
+    ],
+
+    'memory_usage_threshold' => [
+        'warning' => 75,
         'fail' => 90,
     ],
 ];

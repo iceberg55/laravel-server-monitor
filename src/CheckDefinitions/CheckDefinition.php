@@ -12,6 +12,8 @@ abstract class CheckDefinition
     /** @var \Spatie\ServerMonitor\Models\Check */
     protected $check;
 
+    const NAME = '';
+
     /**
      * @param \Spatie\ServerMonitor\Models\Check $check
      *
@@ -22,6 +24,11 @@ abstract class CheckDefinition
         $this->check = $check;
 
         return $this;
+    }
+
+    public function name(): string
+    {
+        return self::NAME;
     }
 
     public function command(): string
