@@ -42,6 +42,14 @@ class CheckWarning extends BaseNotification
             });
     }
 
+    public function toDatabase($notifiable)
+    {
+        return [
+            'subject' => $this->getSubject(),
+            'message' => $this->getMessageText()
+        ];
+    }
+
     public function setEvent(CheckWarningEvent $event)
     {
         $this->event = $event;

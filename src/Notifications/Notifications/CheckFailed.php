@@ -42,6 +42,14 @@ class CheckFailed extends BaseNotification
             });
     }
 
+    public function toDatabase($notifiable)
+    {
+        return [
+            'subject' => $this->getSubject(),
+            'message' => $this->getMessageText()
+        ];
+    }
+
     public function setEvent(CheckFailedEvent $event)
     {
         $this->event = $event;

@@ -42,6 +42,14 @@ class CheckRestored extends BaseNotification
             });
     }
 
+    public function toDatabase($notifiable)
+    {
+        return [
+            'subject' => $this->getSubject(),
+            'message' => $this->getMessageText()
+        ];
+    }
+
     public function setEvent(CheckRestoredEvent $event)
     {
         $this->event = $event;

@@ -15,6 +15,8 @@ class Host extends Model
     use HostPresenter;
     use HasCustomProperties;
 
+    protected $table = 'monitoring_hosts';
+
     public $casts = [
         'custom_properties' => 'array',
     ];

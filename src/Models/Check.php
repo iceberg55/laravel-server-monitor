@@ -25,6 +25,8 @@ class Check extends Model
     use HasProcess;
     use HandlesCheckResult;
 
+    protected $table = 'monitoring_checks';
+
     public $guarded = [];
 
     public $casts = [
