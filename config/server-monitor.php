@@ -10,7 +10,9 @@ return [
     'checks' => [
         Spatie\ServerMonitor\CheckDefinitions\Diskspace::class,
         Spatie\ServerMonitor\CheckDefinitions\CPUUsage::class,
-        Spatie\ServerMonitor\CheckDefinitions\MemoryUsage::class
+        Spatie\ServerMonitor\CheckDefinitions\MemoryUsage::class,
+        Spatie\ServerMonitor\CheckDefinitions\CurlCPUUsage::class,
+        Spatie\ServerMonitor\CheckDefinitions\CurlMemoryUsage::class        
     ],
 
     // When the clean-up command is run, delete old records greater than `purge` days

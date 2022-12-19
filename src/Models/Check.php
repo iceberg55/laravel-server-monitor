@@ -58,6 +58,10 @@ class Check extends Model
         $query->where('enabled', 1);
     }
 
+    public function isNeverRan() : bool {
+        return is_null($this->last_ran_at);
+    }
+
     public function shouldRun(): bool
     {
         if (! $this->enabled) {
@@ -73,7 +77,7 @@ class Check extends Model
             ->isFuture();
     }
 
-    private function findCheckDefinition() : string {
+    private function findCheckDefinition() : mixed {
 
         return collect(config("server-monitor.checks"))->first(function($check) {
             return $this->type == $check::NAME;

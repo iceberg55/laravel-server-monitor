@@ -12,8 +12,9 @@ use Spatie\ServerMonitor\Models\Record;
 trait HandlesCheckResult
 {
     private function saveRecord($value) {
-        $record = new Record;
-        $record->host_id = $this->host->id;
+        $class = config('server-monitor.record_model', Record::class);
+        $record = new $class;
+        $record->vps_id = $this->host->id;
         $record->value = $value;
         $record->type = $this->type;
         $record->status = $this->status;

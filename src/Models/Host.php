@@ -29,7 +29,7 @@ class Host extends Model
         return $this->hasMany(config('server-monitor.check_model', Check::class));
     }
 
-    public function record(): HasMany
+    public function records(): HasMany
     {
         return $this->hasMany(config('server-monitor.record_model', Record::class));
     }
