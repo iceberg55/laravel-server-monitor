@@ -7,7 +7,7 @@ use Symfony\Component\Process\Process;
 class CurlMemoryUsage extends CheckDefinition
 {
 
-    const NAME = 'cpu-memory';
+    const NAME = 'memory-curl';
     public $command = 'curl --silent http://localhost:50000?action=getmem';
 
     public function command(): string
