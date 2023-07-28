@@ -8,11 +8,12 @@ use Symfony\Component\Process\Process;
 class Diskspace extends CheckDefinition
 {
     public $command = 'df -P .';
-    const NAME = 'diskspace';
 
     public function resolve(Process $process)
     {
         $percentage = $this->getDiskUsagePercentage($process->getOutput());
+
+        $message = "usage at {$percentage}%";
 
         $thresholds = config('server-monitor.diskspace_percentage_threshold', [
             'warning' => 80,
@@ -20,18 +21,18 @@ class Diskspace extends CheckDefinition
         ]);
 
         if ($percentage >= $thresholds['fail']) {
-            $this->check->fail($percentage);
+            $this->check->fail($message);
 
             return;
         }
 
         if ($percentage >= $thresholds['warning']) {
-            $this->check->warn($percentage);
+            $this->check->warn($message);
 
             return;
         }
 
-        $this->check->succeed($percentage);
+        $this->check->succeed($message);
     }
 
     protected function getDiskUsagePercentage(string $commandOutput): int

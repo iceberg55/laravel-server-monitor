@@ -32,14 +32,4 @@ class CheckRepository
 
         return $monitorModel;
     }
-
-    public static function getAllNames(): array
-    {
-        $checks = config('server-monitor.checks');
-
-        return collect($checks)->map(function($check) {
-            return $check::NAME;
-        })->toArray();
-    }
-
 }

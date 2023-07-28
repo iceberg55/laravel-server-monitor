@@ -33,7 +33,7 @@ trait CheckPresenter
 
     public function getSummaryAttribute(): string
     {
-        return "{$this->status_as_emoji}  {$this->type}: {$this->last_run_value}";
+        return "{$this->status_as_emoji}  {$this->type}: {$this->last_run_message}";
     }
 
     public function getLatestRunDiffAttribute(): string

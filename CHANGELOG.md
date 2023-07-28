@@ -2,6 +2,47 @@
 
 All notable changes to `laravel-server-monitor` will be documented in this file
 
+## 1.9.7 - 2023-07-19
+
+### What's Changed
+
+- Fix typo by @DieterHolvoet in https://github.com/spatie/laravel-server-monitor/pull/123
+
+### New Contributors
+
+- @DieterHolvoet made their first contribution in https://github.com/spatie/laravel-server-monitor/pull/123
+
+**Full Changelog**: https://github.com/spatie/laravel-server-monitor/compare/1.9.6...1.9.7
+
+## 1.9.6 - 2023-02-23
+
+### What's Changed
+
+- fix for deprecated Model "Dates" Property by @daikazu in https://github.com/spatie/laravel-server-monitor/pull/122
+
+### New Contributors
+
+- @daikazu made their first contribution in https://github.com/spatie/laravel-server-monitor/pull/122
+
+**Full Changelog**: https://github.com/spatie/laravel-server-monitor/compare/1.9.5...1.9.6
+
+## 1.9.5 - 2023-01-25
+
+### What's Changed
+
+- Refactor tests to pest by @AyoobMH in https://github.com/spatie/laravel-server-monitor/pull/118
+- Laravel 10.x Compatibility by @laravel-shift in https://github.com/spatie/laravel-server-monitor/pull/121
+
+### New Contributors
+
+- @AyoobMH made their first contribution in https://github.com/spatie/laravel-server-monitor/pull/118
+
+**Full Changelog**: https://github.com/spatie/laravel-server-monitor/compare/1.9.4...1.9.5
+
+## 1.9.4 - 2022-01-19
+
+- support Laravel 9
+
 ## 1.9.3 - 2021-02-23
 
 - add support for PHP 8
@@ -20,7 +61,7 @@ All notable changes to `laravel-server-monitor` will be documented in this file
 
 ## 1.8.1 - 2019-09-20
 
-- `next_run_in_minutes` can be set in config 
+- `next_run_in_minutes` can be set in config
 
 ## 1.8.0 - 2019-09-04
 

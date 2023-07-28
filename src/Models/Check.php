@@ -32,10 +32,9 @@ class Check extends Model
     public $casts = [
         'custom_properties' => 'array',
         'last_run_output' => 'array',
-    ];
-
-    public $dates = [
-        'last_ran_at', 'next_check_at', 'started_throttling_failing_notifications_at',
+        'last_ran_at' => 'datetime',
+        'next_check_at' => 'datetime',
+        'started_throttling_failing_notifications_at' => 'datetime',
     ];
 
     public function host(): BelongsTo
@@ -58,10 +57,6 @@ class Check extends Model
         $query->where('enabled', 1);
     }
 
-    public function isNeverRan() : bool {
-        return is_null($this->last_ran_at);
-    }
-
     public function shouldRun(): bool
     {
         if (! $this->enabled) {
@@ -77,16 +72,9 @@ class Check extends Model
             ->isFuture();
     }
 
-    private function findCheckDefinition() : mixed {
-
-        return collect(config("server-monitor.checks"))->first(function($check) {
-            return $this->type == $check::NAME;
-        });
-    }
-
     public function getDefinition(): CheckDefinition
     {
-        if (! $definitionClass = $this->findCheckDefinition()) {
+        if (! $definitionClass = config("server-monitor.checks.{$this->type}")) {
             throw InvalidCheckDefinition::unknownCheckType($this);
         }
 

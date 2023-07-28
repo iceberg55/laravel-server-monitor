@@ -3,7 +3,6 @@
 namespace Spatie\ServerMonitor\Commands;
 
 use InvalidArgumentException;
-use Spatie\ServerMonitor\CheckRepository;
 use Spatie\ServerMonitor\Models\Enums\CheckStatus;
 
 class AddHost extends BaseCommand
@@ -32,11 +31,11 @@ class AddHost extends BaseCommand
             ? $this->ask('Which ip address?')
             : null;
 
-        $checkNames = array_merge([static::$allChecksLabel], CheckRepository::getAllNames());
+        $checkNames = array_merge([static::$allChecksLabel], $this->getAllCheckNames());
 
         $chosenChecks = $this->choice('Which checks should be performed?', $checkNames, 0, null, true);
 
-        $chosenChecks = $this->determineChecks($chosenChecks);
+        $chosenChecks = $this->determineChecks($chosenChecks, $checkNames);
 
         if ($this->determineHostModelClass()::where('name', $hostName)->first()) {
             throw new InvalidArgumentException("Host `{$hostName}` already exists");
@@ -60,13 +59,17 @@ class AddHost extends BaseCommand
         $this->info("Host `{$hostName}` added");
     }
 
-    protected function determineChecks(array $chosenChecks): array
+    protected function determineChecks(array $chosenChecks, array $checkNames): array
     {
         if (in_array(static::$allChecksLabel, $chosenChecks)) {
-            return CheckRepository::getAllNames();
+            return $this->getAllCheckNames();
         }
 
         return array_diff($chosenChecks, [static::$allChecksLabel]);
     }
 
+    protected function getAllCheckNames(): array
+    {
+        return array_keys(config('server-monitor.checks'));
+    }
 }

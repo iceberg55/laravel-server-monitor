@@ -3,7 +3,6 @@
 namespace Spatie\ServerMonitor\Commands;
 
 use Spatie\ServerMonitor\CheckRepository;
-use Spatie\ServerMonitor\RecordRepository;
 
 class RunChecks extends BaseCommand
 {
@@ -18,8 +17,6 @@ class RunChecks extends BaseCommand
         $this->info('Start running '.count($checks).' checks...');
 
         $checks->runAll();
-
-        RecordRepository::clean();
 
         $this->info('All done!');
     }

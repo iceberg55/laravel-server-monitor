@@ -8,15 +8,13 @@ return [
      * `Spatie\ServerMonitor\Checks\CheckDefinitions\CheckDefinition` class.
      */
     'checks' => [
-        Spatie\ServerMonitor\CheckDefinitions\Diskspace::class,
-        Spatie\ServerMonitor\CheckDefinitions\CPUUsage::class,
-        Spatie\ServerMonitor\CheckDefinitions\MemoryUsage::class,
-        Spatie\ServerMonitor\CheckDefinitions\CurlCPUUsage::class,
-        Spatie\ServerMonitor\CheckDefinitions\CurlMemoryUsage::class        
+        'diskspace' => Spatie\ServerMonitor\CheckDefinitions\Diskspace::class,
+        'cpu' => Spatie\ServerMonitor\CheckDefinitions\CPUUsage::class,
+        'mem' => Spatie\ServerMonitor\CheckDefinitions\MemoryUsage::class,
+        'cpu-curl' => Spatie\ServerMonitor\CheckDefinitions\CurlCPUUsage::class,
+        'mem-curl =>Spatie\ServerMonitor\CheckDefinitions\CurlMemoryUsage::class        
     ],
 
-    // When the clean-up command is run, delete old records greater than `purge` days
-    'purge' => 30,
     /*
      * The default value for how often the checks will run,
      * after the last successful one.
@@ -90,16 +88,14 @@ return [
      */
     'check_model' => Spatie\ServerMonitor\Models\Check::class,
 
-    'record_model' => Spatie\ServerMonitor\Models\Record::class,
-
     /*
-     * Right before running a check it's process will be given to this class. Here you
+     * Right before running a check its process will be given to this class. Here you
      * can perform some last minute manipulations on it before it will
      * actually be run.
      *
      * This class should implement Spatie\ServerMonitor\Manipulators\Manipulator
      */
-    'process_manipulator' => Spatie\ServerMonitor\Manipulators\ManipulatorLocal::class,
+    'process_manipulator' => Spatie\ServerMonitor\Manipulators\Passthrough::class,
 
     /*
      * Thresholds for disk space's alert.
