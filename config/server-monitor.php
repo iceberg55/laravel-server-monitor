@@ -12,7 +12,7 @@ return [
         'cpu' => Spatie\ServerMonitor\CheckDefinitions\CPUUsage::class,
         'mem' => Spatie\ServerMonitor\CheckDefinitions\MemoryUsage::class,
         'cpu-curl' => Spatie\ServerMonitor\CheckDefinitions\CurlCPUUsage::class,
-        'mem-curl =>Spatie\ServerMonitor\CheckDefinitions\CurlMemoryUsage::class        
+        'mem-curl' =>Spatie\ServerMonitor\CheckDefinitions\CurlMemoryUsage::class
     ],
 
     /*
