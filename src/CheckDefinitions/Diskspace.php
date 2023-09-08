@@ -9,6 +9,8 @@ class Diskspace extends CheckDefinition
 {
     public $command = 'df -P .';
 
+    const NAME = 'diskspace';
+
     public function resolve(Process $process)
     {
         $percentage = $this->getDiskUsagePercentage($process->getOutput());
